@@ -15,51 +15,47 @@ public class Game {
         this.guess = guess;
     }
 
-    public String goPlay(char guess) {
-        String newString ="";
-        boolean stillDashes = true;
-        String resultArray = initializeResultArray();
-         while (stillDashes) {
-             newString = playHangMan(guess, resultArray);
-             //stillDashes = newString.matches("(^+-$)");
-             stillDashes = newString.contains("-");
-
-             System.out.println("NewString :"+newString+"stillDashes :"+stillDashes);
-         }
-        System.out.println("while loop ended: "+newString);
-         return newString;
-
-    }
-
     public String initializeResultArray () {
-        String displayArray = "";
-       randomString = getRandomAnswer();
+        String resultString = "";
+
+       randomString = getRandomString();
        int length = randomString.length();
        for (int i=0; i < length ; i++){
-           displayArray = displayArray + "-";
+           resultString = resultString + "-";
        }
-       System.out.println(displayArray);
-        return displayArray;
-
+        return resultString;
     }
 
     public String playHangMan(char guess, String resultArray ){
 
         char [] resultChars = resultArray.toCharArray();
-        List<Boolean> checks = compareAnswerandGuess(guess);
-        for (int i= 0; i < checks.size(); i++ ) {
-            if (checks.get(i)) {
+        List<Boolean> isMatches = isMatch(guess);
+        for (int i= 0; i < isMatches.size(); i++ ) {
+            if (isMatches.get(i)) {
                 resultChars[i] = guess;
             }
         }
         String newResult = new String(resultChars);
-        System.out.println(newResult);
         return newResult;
     }
 
-    public String getRandomAnswer (){
+    public List<Boolean> isMatch(char guess){
+      List<Boolean> isMatches = new ArrayList<>();
+      char[] answerChars = randomString.toCharArray();
+      for ( char letter : answerChars) {
+        Character wrapperLetter = letter;
+        if (wrapperLetter.equals(guess)) {
+          isMatches.add(true);
+        } else {
+          isMatches.add(false);
+        }
+      }
+      return isMatches;
+    }
+
+    public String getRandomString (){
         Random randomWordGen = new Random();
-        int word = randomWordGen.nextInt(1);
+        int word = randomWordGen.nextInt(10);
         String wordString = "";
         switch (word) {
             case 0: wordString = "perry";
@@ -72,7 +68,7 @@ public class Game {
                     break;
             case 4: wordString = "queue";
                     break;
-            case 5: wordString = "epicodus";
+            case 5: wordString = "youaretheproject";
                     break;
             case 6: wordString = "foodtruck";
                     break;
@@ -83,24 +79,6 @@ public class Game {
             case 9 : wordString = "softwrap";
                     break;
         }
-        System.out.println(wordString);
         return wordString;
     }
-
-    public List<Boolean> compareAnswerandGuess(char guess){
-        List<Boolean> isMatches = new ArrayList<Boolean>();
-        System.out.println("RandomString "+randomString);
-        char[] answerChars = randomString.toCharArray();
-        for ( char letter : answerChars) {
-            Character wrapperLetter = letter;
-            if (wrapperLetter.equals(guess)) {
-                isMatches.add(true);
-            } else {
-                isMatches.add(false);
-            }
-        }
-        return isMatches;
-    }
-
-
 }
