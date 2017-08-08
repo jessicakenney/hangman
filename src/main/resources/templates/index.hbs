@@ -1,0 +1,21 @@
+{{#partial "title"}}
+{{/partial}}
+
+<!--form.hbs-->
+{{#partial "content"}}
+
+<h1>{{resultString}}</h1>
+<h1>{{updatedResultString}}</h1>
+<br>
+<h2>Guess a Letter</h2>
+<form action='/game' >
+ <div class="form-group">
+    <label for="guessString">Enter a letter</label>
+    <input id="guessString" name="guessString" class="form-control" type="text">
+ </div>
+ <button type="submit" class="btn">guess</button>
+</form>
+<!--form.hbs.-->
+{{/partial}}
+
+{{> layout.hbs}}
